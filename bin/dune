@@ -1,4 +1,4 @@
 (executable
  (public_name mobwatch)
  (name main)
- (libraries dream mobwatch mobwatch_routes))
+ (libraries dream mobwatch routes))

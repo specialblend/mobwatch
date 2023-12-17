@@ -1,6 +1,5 @@
 open Lwt.Syntax
 module M = Mobwatch
-module C = Mobwatch_components
 
 let is_valid name =
   String.length name < 32
@@ -25,37 +24,41 @@ let parse_post req =
     end
   | _ -> None
 
-let print_elt e =
-  Format.asprintf "%a" (Tyxml.Html.pp_elt ()) e
+let print_elt e = Format.asprintf "%a" (Tyxml.Html.pp_elt ()) e
 
 let render_form ~name ~msg =
-  C.RegisterForm.Form.createElement ~name ~msg ()
+  Components.RegisterForm.Form.createElement ~name ~msg ()
   |> print_elt
   |> Dream.html
 
-let get req =
-  let name = Option.map validate (Dream.query req "name") in
-  let msg =
-    match name with
-    | None -> None
-    | Some (Error _) -> Some "invalid name"
-    | Some (Ok name') -> Some ("welcome, " ^ name')
-  in
-  render_form ~name ~msg
+module Api = struct
+  let get req =
+    let name = Option.map validate (Dream.query req "name") in
+    let msg =
+      match name with
+      | Some (Error _) -> Some "invalid name"
+      | _ -> None
+    in
+    render_form ~name ~msg
 
-let post req =
-  let* name = parse_post req in
-  match name with
-  | None -> render_form ~name ~msg:None
-  | Some (Error _) ->
-      render_form ~name ~msg:(Some "invalid name")
-  | Some (Ok name') ->
-  match M.Red.init () with
-  | Error _ -> render_form ~name ~msg:(Some "db error")
-  | Ok db ->
-  match M.Player.create name' ~db with
-  | Error _ ->
-      render_form ~name ~msg:(Some "internal error")
-  | Ok player ->
-      render_form ~name
-        ~msg:(Some ("welcome, " ^ player.name))
+  let post req =
+    let* name = parse_post req in
+    let show_form = render_form ~name in
+    match name with
+    | None -> show_form ~msg:None
+    | Some (Error _) -> show_form ~msg:(Some "invalid name")
+    | Some (Ok name') ->
+    match M.Red.init () with
+    | Error _ -> show_form ~msg:(Some "db error")
+    | Ok db ->
+    match M.Player.create name' ~db with
+    | Error _ -> show_form ~msg:(Some "internal error")
+    | Ok player -> show_form ~msg:(Some ("welcome, " ^ player.name))
+end
+
+module Page = struct
+  let show _req =
+    Pages.RegisterPage.createElement ()
+    |> Format.asprintf "%a" (Tyxml.Html.pp ())
+    |> Dream.html
+end

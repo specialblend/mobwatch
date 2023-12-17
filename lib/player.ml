@@ -29,21 +29,11 @@ let serialize t = Sexplib.Sexp.to_string (sexp_of_t t)
 let serialize_json t = Yojson.Safe.to_string (yojson_of_t t)
 
 let deserialize str =
-  try
-    str
-    |> Sexplib.Sexp.of_string
-    |> t_of_sexp
-    |> Option.some
-  with
+  try str |> Sexplib.Sexp.of_string |> t_of_sexp |> Option.some with
   | _ -> None
 
 let deserialize_json str =
-  try
-    str
-    |> Yojson.Safe.from_string
-    |> t_of_yojson
-    |> Option.some
-  with
+  try str |> Yojson.Safe.from_string |> t_of_yojson |> Option.some with
   | _ -> None
 
 let ttl = 14 * 24 * 60 * 60 (* 14 days *)
@@ -58,23 +48,18 @@ let write ~db player =
   | exn -> Error exn
 
 let create ~db name =
-  let player =
-    { id = Ulid.ulid (); key = Some (Ulid.ulid ()); name }
-  in
+  let player = { id = Ulid.ulid (); key = Some (Ulid.ulid ()); name } in
   write player ~db
 
 let lookup ~db id =
   try
-    Red.get db ("players" // id)
-    |> Option.flat_map deserialize
-    |> Result.ok
+    Red.get db ("players" // id) |> Option.flat_map deserialize |> Result.ok
   with
   | exn -> Error exn
 
 let secure_lookup ~db (Ref r) =
   let verify = function
-    | Some player when player.key = Some r.key ->
-        Some player
+    | Some player when player.key = Some r.key -> Some player
     | _ -> None
   in
   Result.map verify (lookup r.id ~db)

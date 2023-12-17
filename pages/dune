@@ -1,5 +1,5 @@
 (library
- (name components)
+ (name pages)
  (libraries tyxml)
  (preprocess
   (pps tyxml-jsx)))
