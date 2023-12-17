@@ -18,8 +18,13 @@ type t = {
 
 let serialize t = Sexplib.Sexp.to_string (sexp_of_t t)
 
-let deserialize s =
-  try Some (t_of_sexp (Sexplib.Sexp.of_string s)) with
+let deserialize str =
+  try
+    str
+    |> Sexplib.Sexp.of_string
+    |> t_of_sexp
+    |> Option.some
+  with
   | _ -> None
 
 let ttl = 24 * 60 * 60 (* 24 hours *)

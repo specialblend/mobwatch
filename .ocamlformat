@@ -1,4 +1,4 @@
-margin = 64 
+margin = 60 
 break-cases = all
 break-fun-decl=fit-or-vertical
 break-infix = fit-or-vertical
