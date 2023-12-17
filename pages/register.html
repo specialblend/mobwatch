@@ -6,28 +6,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
     <script src="https://unpkg.com/htmx.org@1.9.9"
-        integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
-        crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+            integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+            crossorigin="anonymous"></script>
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap"
+          rel="stylesheet">
 </head>
-<body class="text-white bg-zinc-900 font-light" style="font-family: 'JetBrains Mono', monospace">
+<body class="text-white bg-zinc-900 font-light"
+      style="font-family: 'JetBrains Mono', monospace">
     <div class="container mx-auto">
         <div class="flex flex-col items-center justify-center h-screen">
             <h1 class="text-2xl">enter your name to continue</h1>
-            <div class="flex flex-col items-center justify-center mt-8">
-                <form id="register" hx-post="/register" hx-swap="none">
-                    <input type="text" name="name" placeholder="your name"
-                        class="px-4 py-2 rounded-lg bg-zinc-800 border-2 border-zinc-700 focus:border-zinc-500 focus:outline-none">
-                    <button type="submit"
-                        class="px-4 py-2 rounded-lg bg-zinc-800 border-2 border-zinc-700 focus:border-zinc-500 focus:outline-none mt-4">start</button>
-                    <script type="text/hyperscript">
-                        on htmx:afterOnLoad from #register 
-                            localStorage.setItem('player', event.detail.xhr.responseText)
-                            then go to url "/" 
-                    </script>
-                </form>
+            <div class="flex flex-col items-center justify-center mt-8"
+                 hx-get="/register/validate"
+                 hx-target="this"
+                 hx-swap="innerHTML"
+                 hx-trigger="load">
             </div>
         </div>
     </div>
