@@ -1,5 +1,6 @@
 open Fun
 open Sexplib.Std
+module U = Ulid
 
 type ref =
   | Ref of {
@@ -41,8 +42,8 @@ let write ~db room =
 let create ~db name =
   let room =
     {
-      id = Ulid.ulid ();
-      key = Some (Ulid.ulid ());
+      id = U.ulid ();
+      key = Some (U.ulid ());
       name;
       players = [];
     }

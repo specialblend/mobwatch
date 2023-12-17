@@ -1,3 +1,5 @@
 (library
  (name mobwatch_routes)
- (libraries mobwatch dream tyxml))
+ (libraries mobwatch dream lwt str tyxml)
+ (preprocess
+  (pps lwt_ppx)))

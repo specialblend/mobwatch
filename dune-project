@@ -19,7 +19,7 @@
  (name mobwatch)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune dream redis-sync sexplib ppx_sexp_conv)
+ (depends ocaml dune dream lwt lwt_ppx redis-sync sexplib ppx_sexp_conv)
  (tags
   (topics "to describe" your project)))
 

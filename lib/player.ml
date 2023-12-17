@@ -1,5 +1,6 @@
 open Fun
 open Sexplib.Std
+module U = Ulid
 
 type t = {
   id: string;
@@ -47,7 +48,9 @@ let write ~db player =
   | exn -> Error exn
 
 let create ~db name =
-  let player = { id = Ulid.ulid (); key = None; name } in
+  let player =
+    { id = U.ulid (); key = Some (U.ulid ()); name }
+  in
   write player ~db
 
 let lookup ~db id =

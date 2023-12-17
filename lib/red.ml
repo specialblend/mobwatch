@@ -1,6 +1,9 @@
 include Redis_sync.Client
 
 let init () =
-  lazy
-    (Redis_sync.Client.connect
-       { host = "localhost"; port = 6379 })
+  try
+    { host = "localhost"; port = 6379 }
+    |> Redis_sync.Client.connect
+    |> Result.ok
+  with
+  | exn -> Error exn
