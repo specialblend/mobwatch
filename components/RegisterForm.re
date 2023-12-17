@@ -30,8 +30,6 @@ module NameInput = {
       value={value(name)}
       placeholder="your name"
       class_={style(name)}
-      _hx_get="/api/register"
-      _hx_target="#register"
     />;
   };
 };
@@ -63,9 +61,14 @@ module Msg = {
 };
 
 module Form = {
+  let createElement = (~name, ()) =>
+    <form id="register" _hx_post="/api/register">
+      <NameInput name />
+      <SubmitBtn />
+    </form>;
+};
+
+module UX = {
   let createElement = (~name, ~msg, ()) =>
-    <div id="register">
-      <form _hx_post="/api/register"> <NameInput name /> <SubmitBtn /> </form>
-      <Msg msg />
-    </div>;
+    <div> <Form name /> <Msg msg /> </div>;
 };

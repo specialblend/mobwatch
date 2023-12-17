@@ -27,7 +27,7 @@ let parse_post req =
 let print_elt e = Format.asprintf "%a" (Tyxml.Html.pp_elt ()) e
 
 let render_form ~name ~msg =
-  Components.RegisterForm.Form.createElement ~name ~msg ()
+  Components.RegisterForm.UX.createElement ~name ~msg ()
   |> print_elt
   |> Dream.html
 
