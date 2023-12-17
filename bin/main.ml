@@ -11,6 +11,7 @@ let () =
       H.post "/api/rooms/:room_id/join" R.Rooms.Api.join_room;
       H.get "/register" R.Register.Page.show;
       H.get "/" R.Home.Page.show;
+      H.get "/**" (H.static "./public");
     ]
   |> H.logger
   |> H.run

@@ -23,9 +23,10 @@ module AppLayout = {
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap"
           rel="stylesheet"
         />
+        <link href="/style.css" rel="stylesheet" />
       </head>
       <body
-        class_="text-white bg-zinc-900 font-light"
+        class_="text-white bg-dark"
         style="font-family: 'JetBrains Mono', monospace">
         ...children
       </body>

@@ -18,3 +18,11 @@ module Result = struct
     | Error e -> Error e
     | Ok x -> f x
 end
+
+module Http = struct
+  module Res = struct
+    let ok = Dream.respond ~code:200
+    let bad = Dream.respond ~code:400
+    let err = Dream.respond ~code:500
+  end
+end
