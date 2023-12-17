@@ -6,6 +6,10 @@
     color: rgb(174, 88, 66);
 }
 
+.bg-green {
+    background-color: rgb(181, 181, 64) !important;
+}
+
 .bg-orange {
     background-color: rgb(174, 88, 66) !important;
 }

@@ -35,16 +35,17 @@ module NameInput = {
         "please enter your name"
       </label>
       <div class_="mt-1 mb-4 text-zinc-400">
-        "# 2-32 characters: A-z, 0-9, _"
+        "# max. 32 characters: A-z, 0-9, _"
       </div>
       <input
         type_="text"
         name="name"
-        value={value(name)}
         placeholder="name"
-        class_={style(name)}
         pattern="^[A-Za-z ][A-Za-z0-9_ ]{0,31}$"
+        value={value(name)}
+        class_={style(name)}
         required=()
+        autofocus=()
       />
     </fieldset>;
   };
@@ -55,9 +56,14 @@ module SubmitBtn = {
     "px-3",
     "py-1",
     "my-4",
-    "text-white-100",
+    "text-neutral-100",
     "rounded-md",
     "bg-orange",
+    "border-2",
+    "border-transparent",
+    "focus:outline-none",
+    "focus:text-neutral-100",
+    "focus:border-neutral-100",
   ];
 
   let createElement = () =>
