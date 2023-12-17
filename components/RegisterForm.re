@@ -2,6 +2,7 @@ open Tyxml;
 
 module NameInput = {
   let styles = [
+    "w-full",
     "px-4",
     "py-2",
     "rounded-lg",
@@ -26,10 +27,13 @@ module NameInput = {
   let createElement = (~name, ()) => {
     <input
       type_="text"
+      id="name"
       name="name"
       value={value(name)}
-      placeholder="your name"
+      placeholder="your name (alpha-numeric)"
       class_={style(name)}
+      pattern="^[\\w]+$"
+      required=()
     />;
   };
 };
@@ -70,5 +74,14 @@ module Form = {
 
 module UX = {
   let createElement = (~name, ~msg, ()) =>
-    <div> <Form name /> <Msg msg /> </div>;
+    <div>
+      <Form name />
+      <Msg msg />
+      <script type_="text/hyperscript">
+        "
+        on change from #register
+        log event.target.value
+        "
+      </script>
+    </div>;
 };
