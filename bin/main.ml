@@ -1,5 +1,5 @@
 module H = Dream
-module R = Routes
+module R = Mobwatch_routes
 
 let () =
   H.router
