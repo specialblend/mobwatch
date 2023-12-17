@@ -1,5 +1,6 @@
 open Fun
 open Sexplib.Std
+open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 module U = Ulid
 
 type ref =
@@ -7,7 +8,6 @@ type ref =
       id: string;
       key: string;
     }
-[@@deriving sexp]
 
 type t = {
   id: string;
@@ -15,15 +15,25 @@ type t = {
   name: string;
   players: Player.t list;
 }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 let serialize t = Sexplib.Sexp.to_string (sexp_of_t t)
+let serialize_json t = Yojson.Safe.to_string (yojson_of_t t)
 
 let deserialize str =
   try
     str
     |> Sexplib.Sexp.of_string
     |> t_of_sexp
+    |> Option.some
+  with
+  | _ -> None
+
+let deserialize_json str =
+  try
+    str
+    |> Yojson.Safe.from_string
+    |> t_of_yojson
     |> Option.some
   with
   | _ -> None

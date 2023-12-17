@@ -29,4 +29,4 @@ let register req =
   | Ok db ->
   match M.Player.create name ~db with
   | Error _ -> H.respond ~code:500 "internal error"
-  | Ok player -> H.respond ~code:200 player.id
+  | Ok player -> H.json (M.Player.serialize_json player)

@@ -1,20 +1,20 @@
 open Fun
 open Sexplib.Std
-module U = Ulid
+open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 
 type t = {
   id: string;
   key: string option;
   name: string;
 }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 type ref =
   | Ref of {
       id: string;
       key: string;
     }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 module Role = struct
   type t =
@@ -26,12 +26,22 @@ module Role = struct
 end
 
 let serialize t = Sexplib.Sexp.to_string (sexp_of_t t)
+let serialize_json t = Yojson.Safe.to_string (yojson_of_t t)
 
 let deserialize str =
   try
     str
     |> Sexplib.Sexp.of_string
     |> t_of_sexp
+    |> Option.some
+  with
+  | _ -> None
+
+let deserialize_json str =
+  try
+    str
+    |> Yojson.Safe.from_string
+    |> t_of_yojson
     |> Option.some
   with
   | _ -> None
@@ -49,7 +59,7 @@ let write ~db player =
 
 let create ~db name =
   let player =
-    { id = U.ulid (); key = Some (U.ulid ()); name }
+    { id = Ulid.ulid (); key = Some (Ulid.ulid ()); name }
   in
   write player ~db
 
