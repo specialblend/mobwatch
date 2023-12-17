@@ -1,5 +1,5 @@
 (library
  (name mobwatch_routes)
- (libraries mobwatch dream lwt str tyxml)
+ (libraries mobwatch mobwatch_components dream lwt str tyxml)
  (preprocess
-  (pps lwt_ppx)))
+  (pps lwt_ppx tyxml-jsx)))

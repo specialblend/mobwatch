@@ -6,8 +6,8 @@ let () =
     [
       H.get "/register"
         (H.from_filesystem "./pages" "register.html");
-      H.get "/register/validate" R.Players.Register.get;
-      H.post "/register" R.Players.Register.post;
+      H.get "/api/register" R.Register.get;
+      H.post "/api/register" R.Register.post;
       H.get "/rooms/:room_id" R.Rooms.show;
       H.post "/rooms/create" R.Rooms.create;
       H.post "/rooms/:room_id/join" R.Rooms.join_room;
