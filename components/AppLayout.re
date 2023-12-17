@@ -1,7 +1,7 @@
 open Tyxml;
 
-module RegisterPage = {
-  let createElement = () =>
+module AppLayout = {
+  let createElement = (~children, ()) =>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
@@ -27,20 +27,9 @@ module RegisterPage = {
       <body
         class_="text-white bg-zinc-900 font-light"
         style="font-family: 'JetBrains Mono', monospace">
-        <div class_="container mx-auto">
-          <div class_="flex flex-col items-center justify-center h-screen">
-            <h1 class_="text-2xl"> "enter your name to continue" </h1>
-            <div
-              class_="flex flex-col items-center justify-center mt-8"
-              _hx_get="/api/register"
-              _hx_target="this"
-              _hx_swap="innerHTML"
-              _hx_trigger="load"
-            />
-          </div>
-        </div>
+        ...children
       </body>
     </html>;
 };
 
-include RegisterPage;
+include AppLayout;

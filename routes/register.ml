@@ -58,7 +58,7 @@ end
 
 module Page = struct
   let show _req =
-    Pages.RegisterPage.createElement ()
+    Pages.Register.createElement ()
     |> Format.asprintf "%a" (Tyxml.Html.pp ())
     |> Dream.html
 end
