@@ -1,5 +1,5 @@
 (library
  (name components)
- (libraries tyxml)
+ (libraries mobwatch tyxml)
  (preprocess
   (pps tyxml-jsx)))

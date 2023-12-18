@@ -1,12 +1,9 @@
 open Fun
 open Lwt.Syntax
-module M = Mobwatch
 module Res = Fun.Http.Res
 
-let is_valid name =
-  String.length name < 32
-  && String.length name > 0
-  && Str.string_match (Str.regexp "^[A-Za-z ][A-Za-z0-9_ ]*$") name 0
+let rex = Re2.create_exn Mobwatch.Config._REGEXP_VALID_NAME
+let is_valid name = Re2.matches rex name
 
 let validate name =
   match is_valid name with
@@ -32,11 +29,11 @@ module Api = struct
     match name with
     | None -> Res.ok "ok"
     | Some (Error _) -> Res.bad "invalid name"
-    | Some (Ok name') ->
-    match M.Red.init () with
+    | Some (Ok name) ->
+    match Mobwatch.Red.init () with
     | Error _ -> Res.err "db error"
     | Ok db ->
-    match M.Player.create name' ~db with
+    match Mobwatch.Player.create name ~db with
     | Error _ -> Res.err "internal error"
     | Ok player -> Res.ok player.id
 end

@@ -34,14 +34,16 @@ module NameInput = {
       <label for_="name" class_="block text-zinc-200">
         "please enter your name"
       </label>
-      <div class_="mt-1 mb-4 text-zinc-400">
-        "# max. 32 characters: A-z, 0-9, _"
+      <div class_="mt-1 mb-4 text-zinc-400 text-sm">
+        "# A-z, 0-9, _, space"
+        <br />
+        "# max 32 chars, must begin with A-z"
       </div>
       <input
         type_="text"
         name="name"
         placeholder="name"
-        pattern="^[A-Za-z ][A-Za-z0-9_ ]{0,31}$"
+        pattern=Mobwatch.Config._REGEXP_VALID_NAME
         value={value(name)}
         class_={style(name)}
         required=()
@@ -97,7 +99,7 @@ module UX = {
         "
           on htmx:afterOnLoad from #register
           if event.detail.xhr.status is 200 then
-            wait 2s then go to url '/'
+            // wait 2s then go to url '/'
           end
         "
       </script>
