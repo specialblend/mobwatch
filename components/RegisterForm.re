@@ -81,8 +81,7 @@ module Msg = {
 
 module Form = {
   let createElement = (~name, ()) =>
-    <form
-      id="register" _hx_post="/api/register" _hx_target="#register-container">
+    <form id="register" _hx_post="/api/register" _hx_swap="none">
       <NameInput name />
       <SubmitBtn />
     </form>;
@@ -97,7 +96,10 @@ module UX = {
         "
           on htmx:afterOnLoad from #register
           if event.detail.xhr.status is 200 then
-            // wait 2s then go to url '/'
+            set player to JSON.parse (event.detail.xhr.response)
+            then localStorage.setItem('player_id', player.id)
+            then localStorage.setItem('player_key', player.key)
+            then localStorage.setItem('player_name', player.name)
           end
         "
       </script>
