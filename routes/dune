@@ -1,5 +1,14 @@
 (library
  (name routes)
- (libraries mobwatch components pages dream lwt re2 str tyxml)
+ (libraries
+  mobwatch
+  components
+  pages
+  dream
+  lwt
+  re2
+  str
+  tyxml
+  ppx_yojson_conv)
  (preprocess
-  (pps lwt_ppx tyxml-jsx)))
+  (pps lwt_ppx ppx_yojson_conv tyxml-jsx)))

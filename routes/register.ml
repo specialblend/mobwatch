@@ -1,9 +1,9 @@
 open Fun
 open Lwt.Syntax
+open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 module Res = Fun.Http.Res
 
-let rex = Re2.create_exn Mobwatch.Config._REGEXP_VALID_NAME
-let is_valid name = Re2.matches rex name
+let is_valid = Re2.matches (Re2.create_exn Mobwatch.Config._REGEXP_VALID_NAME)
 
 let validate name =
   match is_valid name with
@@ -18,24 +18,30 @@ let parse_post req =
   | _ -> None
 
 module Api = struct
+  module GenericRes = struct
+    type t = { message: string } [@@deriving yojson]
+
+    let serialize message = Yojson.Safe.to_string (yojson_of_t { message })
+  end
+
   let get req =
     let name = Option.map validate (Dream.query req "name") in
     match name with
-    | Some (Error _) -> Res.bad "invalid name"
+    | Some (Error _) -> Res.bad (GenericRes.serialize "Invalid name")
     | _ -> Res.ok "ok"
 
   let post req =
     let* name = parse_post req in
     match name with
     | None -> Res.ok "ok"
-    | Some (Error _) -> Res.bad "invalid name"
+    | Some (Error _) -> Res.bad (GenericRes.serialize "Invalid name")
     | Some (Ok name) ->
     match Mobwatch.Red.init () with
-    | Error _ -> Res.err "db error"
+    | Error _ -> Res.err (GenericRes.serialize "DB Error")
     | Ok db ->
     match Mobwatch.Player.create name ~db with
-    | Error _ -> Res.err "internal error"
-    | Ok player -> Res.ok player.id
+    | Error _ -> Res.err (GenericRes.serialize "Internal Error")
+    | Ok player -> Res.ok (Mobwatch.Player.serialize_json player)
 end
 
 module Page = struct
