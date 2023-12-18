@@ -29,20 +29,18 @@ module NameInput = {
     | _ => ""
     };
 
+  let validation_msg = "Between 2 and 32 characters. \nLetters, numbers, underscores, and spaces. \nMust begin with letter. \nMust end with letter or number";
+
   let createElement = (~name, ()) => {
     <fieldset class_="">
-      <label for_="name" class_="block text-zinc-200">
-        "please enter your name"
+      <label for_="name" class_="block text-zinc-200 mb-4">
+        "please enter your name "
       </label>
-      <div class_="mt-1 mb-4 text-zinc-400 text-sm">
-        "# A-z, 0-9, _, space"
-        <br />
-        "# max 32 chars, must begin with A-z"
-      </div>
       <input
         type_="text"
         name="name"
         placeholder="name"
+        title=validation_msg
         pattern=Mobwatch.Config._REGEXP_VALID_NAME
         value={value(name)}
         class_={style(name)}
