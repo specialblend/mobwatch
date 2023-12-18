@@ -70,15 +70,6 @@ module SubmitBtn = {
     <button type_="submit" class_=styles> "|> Start" </button>;
 };
 
-module Msg = {
-  let createElement = (~msg, ()) => {
-    switch (msg) {
-    | Some(msg: string) => <p id="msg"> {Tyxml.Html.txt(msg)} </p>
-    | None => <p id="msg" />
-    };
-  };
-};
-
 module Form = {
   let createElement = (~name, ()) =>
     <form id="register" _hx_post="/api/register" _hx_swap="none">
@@ -88,10 +79,10 @@ module Form = {
 };
 
 module UX = {
-  let createElement = (~name, ~msg, ()) =>
+  let createElement = (~name, ()) =>
     <div id="register-container">
       <Form name />
-      <div class_="my-4"> <Msg msg /> </div>
+      <div class_="my-4" />
       <script type_="text/hyperscript">
         "
           on htmx:afterOnLoad from #register
